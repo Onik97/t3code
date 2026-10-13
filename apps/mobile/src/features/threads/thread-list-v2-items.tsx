@@ -1157,12 +1157,9 @@ export const ThreadListV2Row = memo(function ThreadListV2Row(props: {
           </View>
         ) : null}
         {providerInstance ? (
-          // Earlier owners peek out behind the current provider so a
-          // handed-off thread shows where it has been. The current owner
-          // keeps its account badge so same-driver instances stay distinct.
-          <View className="flex-row items-center">
+          <View className="flex-row items-center gap-1.5">
             {providerDrivers.slice(0, -1).map((driver, index) => (
-              <View key={`${driver}:${index}`} className="-mr-1 opacity-30">
+              <View key={`${driver}:${index}`} className="opacity-30">
                 <ProviderIcon provider={driver} size={12} />
               </View>
             ))}
