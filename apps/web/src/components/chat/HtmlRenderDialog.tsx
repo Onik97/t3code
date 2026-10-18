@@ -1,7 +1,6 @@
 import type { ScopedThreadRef } from "@t3tools/contracts";
 import { MinusIcon, PlusIcon, XIcon } from "lucide-react";
 import { useRef, useState } from "react";
-import { useNativeTitlebarHeight } from "~/lib/windowControlsOverlay";
 
 import { HtmlRenderDocument } from "../files/BrowserDocumentFrame";
 import { Button } from "../ui/button";
@@ -14,7 +13,6 @@ export function HtmlRenderDialog(props: {
   readonly onClose: () => void;
 }) {
   const [zoom, setZoom] = useState(1);
-  const titlebarHeight = useNativeTitlebarHeight();
   const closeButtonRef = useRef<HTMLButtonElement>(null);
   return (
     <Dialog open onOpenChange={(open) => !open && props.onClose()}>
@@ -23,7 +21,6 @@ export function HtmlRenderDialog(props: {
         showCloseButton={false}
         bottomStickOnMobile={false}
         className="row-start-1"
-        style={{ marginTop: titlebarHeight }}
         initialFocus={closeButtonRef}
       >
         <DialogTitle className="sr-only">Expanded {props.title} preview</DialogTitle>
@@ -38,10 +35,7 @@ export function HtmlRenderDialog(props: {
           >
             <XIcon />
           </Button>
-          <div
-            className="h-[min(86vh,calc(100vh-160px))] overflow-auto overscroll-contain rounded-lg bg-background shadow-2xl ring-1 ring-border/70 [container-type:size]"
-            style={{ maxHeight: `calc(100vh - 160px - ${titlebarHeight}px)` }}
-          >
+          <div className="h-[min(calc((100vh-var(--native-titlebar-height,0px))*0.86),calc(100vh-var(--native-titlebar-height,0px)-160px))] overflow-auto overscroll-contain rounded-lg bg-background p-4 shadow-2xl ring-1 ring-border/70 [container-type:size]">
             <div className="h-[100cqh] w-[100cqw]" style={{ zoom }}>
               <HtmlRenderDocument
                 src={props.src}
